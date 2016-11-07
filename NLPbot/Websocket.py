@@ -68,11 +68,11 @@ if __name__ == '__main__':
 
     log.startLogging(sys.stdout)
 
-    factory = WebSocketServerFactory(u"ws://127.0.0.1:9000")
+    factory = WebSocketServerFactory(u"ws://192.168.8.217:5010/")
     factory.protocol = MyServerProtocol
     # factory.setProtocolOptions(maxConnections=2)
 
     # note to self: if using putChild, the child must be bytes...
 
-    reactor.listenTCP(9000, factory)
+    reactor.listenTCP(5010, factory)
     reactor.run()

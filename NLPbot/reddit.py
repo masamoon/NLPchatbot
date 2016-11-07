@@ -7,7 +7,6 @@ class reddit:
 
     def get_joke(self):
         r = praw.Reddit(user_agent='Test Script by /u/bboe')
-        #r.login('blackality', 'andrelopes')
 
         submissions = r.get_subreddit('jokes').get_hot(limit=20)
         submissions = list(submissions)
@@ -17,8 +16,6 @@ class reddit:
 
     def get_news(self):
         r = praw.Reddit(user_agent='Test Script by /u/bboe')
-        #r.login('blackality', 'andrelopes')
-
         submissions = r.get_subreddit('worldnews').get_hot(limit=10)
         submissions = list(submissions)
         # return[submissions[0],submissions[0].selftext()]

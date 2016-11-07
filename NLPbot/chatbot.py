@@ -15,7 +15,7 @@ class chatbot:
     def run_bot(self,message):
         categories = ['urban_dictionary', 'reddit_jokes', 'reddit_news', 'flight_prices']
 
-        bot_train = load_files("/home/alopes/Documentos/NLPchatbot/NLPbot//training_data", categories=categories, shuffle=True,
+        bot_train = load_files("/home/ubuntu/NLPchatbot/NLPbot/training_data", categories=categories, shuffle=True,
                                random_state=42)
 
         print(bot_train.target_names)

@@ -20,4 +20,4 @@ def run_serv():
 
 if __name__ == '__main__':
     chatbot = chatbot()
-    app.run()
+    app.run(host='192.168.215.163 ', port=5010)
