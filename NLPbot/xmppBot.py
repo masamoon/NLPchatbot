@@ -96,7 +96,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
 
-
+    #l
     def remindMe(s,who,what):
         print ("Hey %s, just to remind you: %s" % (who,what))
 
