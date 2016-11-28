@@ -23,7 +23,7 @@ import schedule
 
 from chatbot import chatbot
 
-from queue import Queue, Empty
+#from queue import Queue, Empty
 from twisted.internet import task
 from twisted.internet import reactor
 
@@ -91,16 +91,16 @@ class EchoBot(sleekxmpp.ClientXMPP):
         """
         self.send_presence()
         self.get_roster()
-        self.plugin['xep_0045'].joinMUC("test@conference.andrelopes",
+        self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
                                         "bot"
                                         # If a room password is needed, use:
                                         # password=the_room_password,
                                         )
-        self.plugin['xep_0045'].joinMUC("test2@conference.andrelopes",
-                                        "bot"
+        #self.plugin['xep_0045'].joinMUC("test2@conference.andrelopes",
+         #                               "bot"
                                         # If a room password is needed, use:
                                         # password=the_room_password,
-                                        )
+          #                              )
 
     def message(self, msg):
         """
@@ -136,7 +136,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
 if __name__ == '__main__':
-    xmpp_queue = Queue()
+#    xmpp_queue = Queue()
     chatbot = chatbot()
 
 
@@ -179,6 +179,7 @@ if __name__ == '__main__':
         opts.password = raw_input("Password: ")
     if opts.room is None:
         opts.room = raw_input("MUC room: ")
+
     if opts.nick is None:
         opts.nick = "chatbot"
 
