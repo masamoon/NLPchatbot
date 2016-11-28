@@ -68,6 +68,9 @@ class chatbot:
             if (bot_train.target_names[search[1]] == 'reddit_news'):
                 print(reddit.get_news())
                 return reddit.get_news()
+            if (bot_train.target_names[search[1]] == 'remindme'):
+                print("remind me to ")
+                return "remindme"
 
 
 X = chatbot()

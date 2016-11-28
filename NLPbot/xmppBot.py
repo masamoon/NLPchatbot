@@ -12,6 +12,7 @@
 import sys
 import logging
 import getpass
+import pika
 from optparse import OptionParser
 
 from threading import Timer
@@ -19,6 +20,8 @@ from threading import Timer
 
 import sleekxmpp
 import schedule
+
+from chatbot import chatbot
 
 from queue import Queue, Empty
 from twisted.internet import task
@@ -43,9 +46,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
     """
 
 
-    def __init__(self, jid, password):
+    def __init__(self, jid, password,room,nick):
         sleekxmpp.ClientXMPP.__init__(self, jid, password)
-
+        self.room = room
+        self.nick = nick
         # The session_start event will be triggered when
         # the bot establishes its connection with the server
         # and the XML streams are ready for use. We want to
@@ -57,6 +61,20 @@ class EchoBot(sleekxmpp.ClientXMPP):
         # stanza is received. Be aware that that includes
         # MUC messages and error messages.
         self.add_event_handler("message", self.message)
+
+        # The groupchat_message event is triggered whenever a message
+        # stanza is received from any chat room. If you also also
+        # register a handler for the 'message' event, MUC messages
+        # will be processed by both handlers.
+#        self.add_event_handler("groupchat_message", self.muc_message)
+
+        # The groupchat_presence event is triggered whenever a
+        # presence stanza is received from any chat room, including
+        # any presences you send yourself. To limit event handling
+        # to a single room, use the events muc::room@server::presence,
+        # muc::room@server::got_online, or muc::room@server::got_offline.
+ #       self.add_event_handler("muc::%s::got_online" % self.room,
+  #                             self.muc_online)
 
     def start(self, event):
         """
@@ -73,6 +91,16 @@ class EchoBot(sleekxmpp.ClientXMPP):
         """
         self.send_presence()
         self.get_roster()
+        self.plugin['xep_0045'].joinMUC("test@conference.andrelopes",
+                                        "bot"
+                                        # If a room password is needed, use:
+                                        # password=the_room_password,
+                                        )
+        self.plugin['xep_0045'].joinMUC("test2@conference.andrelopes",
+                                        "bot"
+                                        # If a room password is needed, use:
+                                        # password=the_room_password,
+                                        )
 
     def message(self, msg):
         """
@@ -88,26 +116,30 @@ class EchoBot(sleekxmpp.ClientXMPP):
         """
         if msg['type'] in ('chat', 'normal'):
             print(msg['body'])
+            result = chatbot.run_bot(msg['body'])
+            if "remindme" in result:
+                #schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
+                Timer(10, lambda:self.remindMe("quim","dar banho ao cao"), ()).start()
+                msg.reply("Thanks for sending\n%(body)s" % msg).send()
+            msg.reply("bot_reply: %(body)s" % msg).send()
 
-            #schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
-            Timer(10, lambda:self.remindMe("quim","dar banho ao cao"), ()).start()
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
 
 
-
-    #l
     def remindMe(s,who,what):
         print ("Hey %s, just to remind you: %s" % (who,what))
 
-
-
+    def callback(ch, method, properties, body):
+        print(" [x] Received %r" % body)
 
 
 
 
 if __name__ == '__main__':
     xmpp_queue = Queue()
+    chatbot = chatbot()
+
+
 
 
 
@@ -130,6 +162,10 @@ if __name__ == '__main__':
                     help="JID to use")
     optp.add_option("-p", "--password", dest="password",
                     help="password to use")
+    optp.add_option("-r", "--room", dest="room",
+                    help="MUC room to join")
+    optp.add_option("-n", "--nick", dest="nick",
+                    help="MUC nickname")
 
     opts, args = optp.parse_args()
 
@@ -140,16 +176,21 @@ if __name__ == '__main__':
     if opts.jid is None:
         opts.jid = raw_input("Username: ")
     if opts.password is None:
-        opts.password = getpass.getpass("Password: ")
+        opts.password = raw_input("Password: ")
+    if opts.room is None:
+        opts.room = raw_input("MUC room: ")
+    if opts.nick is None:
+        opts.nick = "chatbot"
 
     # Setup the EchoBot and register plugins. Note that while plugins may
     # have interdependencies, the order in which you register them does
     # not matter.
-    xmpp = EchoBot(opts.jid, opts.password)
+    xmpp = EchoBot(opts.jid, opts.password,opts.room, opts.nick)
     xmpp.register_plugin('xep_0030') # Service Discovery
     xmpp.register_plugin('xep_0004') # Data Forms
     xmpp.register_plugin('xep_0060') # PubSub
     xmpp.register_plugin('xep_0199') # XMPP Ping
+    xmpp.register_plugin('xep_0045')  # Multi-User Chat
 
     # If you are working with an OpenFire server, you may need
     # to adjust the SSL version used:
@@ -160,7 +201,7 @@ if __name__ == '__main__':
     # xmpp.ca_certs = "path/to/ca/cert"
 
     # Connect to the XMPP server and start processing XMPP stanzas.
-    if xmpp.connect(('localhost', 5222 )):
+    if xmpp.connect(('192.168.215.165', 5222)):
         # If you do not have the dnspython library installed, you will need
         # to manually specify the name of the server if it does not match
         # the one in the JID. For example, to use Google Talk you would
@@ -168,9 +209,13 @@ if __name__ == '__main__':
         #
         # if xmpp.connect(('talk.google.com', 5222)):
         #     ...
+
+
+
         xmpp.process(block=True)
         schedule.run_pending()
         print("Done")
+
     else:
         print("Unable to connect.")
 
