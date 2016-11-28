@@ -89,6 +89,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
                      event does not provide any additional
                      data.
         """
+        import MQTTbot
+
+        MQTTbot.init_mqtt()
+
         self.send_presence()
         self.get_roster()
         self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
