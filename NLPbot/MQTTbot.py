@@ -1,5 +1,6 @@
 import pika
 import time
+import sys
 from chatbot import chatbot
 
 
@@ -10,6 +11,21 @@ parameters = pika.ConnectionParameters('192.168.8.217',
                                        5012,
                                        '/',
                                        credentials)
+
+connection = pika.BlockingConnection(parameters)
+channel = connection.channel()
+
+channel.queue_declare(queue='hello', durable=False)
+
+message = ' '.join(sys.argv[1:]) or "Sou o bot"
+channel.basic_publish(exchange='',
+                      routing_key='task_queue',
+                      body=message,
+                      properties=pika.BasicProperties(
+                         delivery_mode = 2, # make message persistent
+                      ))
+print(" [x] Sent %r" % message)
+connection.close()
 
 connection = pika.BlockingConnection(parameters)
 channel = connection.channel()
@@ -31,6 +47,9 @@ channel.basic_consume(callback,
 
 
 channel.start_consuming()
+
+
+
 
 
 
