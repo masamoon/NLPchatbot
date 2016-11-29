@@ -4,7 +4,9 @@ import sys
 
 import json
 
+
 def init_mqtt():
+
     from chatbot import chatbot
     chatbot = chatbot()
     credentials = pika.PlainCredentials('es', 'imhere')
@@ -52,6 +54,38 @@ def callback(ch, method, properties, body):
 
 
 
+def enter_allchats():
+    credentials = pika.PlainCredentials('es', 'imhere')
+    parameters = pika.ConnectionParameters('192.168.215.165',
+                                           5012,
+                                           '/',
+                                           credentials)
+
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+
+    channel.queue_declare(queue='hello', durable=False)
+
+    message = json.dumps({'op_id': 9, 'hash': 'bot19'})
+    # message = "Sou o bot"
+    channel.basic_publish(exchange='',
+                          routing_key='hello',
+                          body=message,
+                          properties=pika.BasicProperties(
+                              delivery_mode=2,  # make message persistent
+                          ))
+    print(" [x] Sent %r" % message)
+    # connection.close()
+
+    channel = connection.channel()
+
+    channel.queue_declare(queue='bot19', durable=False)
+    print(' [*] Waiting for messages. To exit press CTRL+C')
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(callback,
+                          queue='bot19')
+
+    channel.start_consuming()
 
 
 
