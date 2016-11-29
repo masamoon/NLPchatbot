@@ -33,17 +33,17 @@ def init_mqtt():
                              delivery_mode = 2, # make message persistent
                           ))
     print(" [x] Sent %r" % message)
-    connection.close()
+#    connection.close()
 
-    channel = connection.channel()
+#    channel = connection.channel()
 
-    channel.queue_declare(queue='bot19', durable=False)
-    print(' [*] Waiting for messages. To exit press CTRL+C')
-    channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(callback,
-                          queue='bot19')
+ #   channel.queue_declare(queue='bot19', durable=False,exclusive=True)
+  #  print(' [*] Waiting for messages. To exit press CTRL+C')
+  #  channel.basic_qos(prefetch_count=1)
+  #  channel.basic_consume(callback,
+   #                       queue='bot19')
 
-    channel.start_consuming()
+   # channel.start_consuming()
 
     enter_allchats()
 
@@ -61,6 +61,7 @@ def callback(ch, method, properties, body):
 
 
 def enter_allchats():
+    print("enter all chats")
     credentials = pika.PlainCredentials('es', 'imhere')
     parameters = pika.ConnectionParameters('192.168.215.165',
                                            5012,
