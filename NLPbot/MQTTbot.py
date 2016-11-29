@@ -4,6 +4,10 @@ import sys
 
 import json
 
+credentials = ""
+parameters = ""
+connection = ""
+channel = ""
 
 def init_mqtt():
 
@@ -29,7 +33,7 @@ def init_mqtt():
                              delivery_mode = 2, # make message persistent
                           ))
     print(" [x] Sent %r" % message)
-    #connection.close()
+    connection.close()
 
     channel = connection.channel()
 
@@ -40,6 +44,8 @@ def init_mqtt():
                           queue='bot19')
 
     channel.start_consuming()
+
+    enter_allchats()
 
 def callback(ch, method, properties, body):
     print(" [x] Received %r" % body)

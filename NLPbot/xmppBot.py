@@ -93,6 +93,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
         MQTTbot.init_mqtt()
 
+
         self.send_presence()
         self.get_roster()
         self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
