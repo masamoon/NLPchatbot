@@ -111,14 +111,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
     def muc_message(self,msg):
         print('receiving MUC msg'+str(msg['body']))
-        if msg['type'] in ('chat', 'normal'):
-            print(msg['body'])
-            result = chatbot.run_bot(msg['body'])
-            if "remindme" in result:
-                # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
-                Timer(10, lambda: self.remindMe("quim", "dar banho ao cao"), ()).start()
-                msg.reply("Thanks for sending\n%(body)s" % msg).send()
-            msg.reply("bot_reply: %(body)s" % msg).send()
+        print(msg['body'])
+        result = chatbot.run_bot(msg['body'])
+        if "remindme" in result:
+            # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
+            Timer(10, lambda: self.remindMe("quim", "dar banho ao cao"), ()).start()
+            msg.reply("Thanks for sending\n%(body)s" % msg).send()
+        msg.reply("bot_reply: %(body)s" % msg).send()
 
     def message(self, msg):
         """
