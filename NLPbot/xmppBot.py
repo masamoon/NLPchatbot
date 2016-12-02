@@ -109,9 +109,9 @@ class EchoBot(sleekxmpp.ClientXMPP):
         for c in chats:
             self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
-        Timer(5,lambda: self.joinAllChats(),()).start()
+        Timer(30,lambda: self.joinAllChats(),()).start()
 
-    def joinAllChats(self,s):
+    def joinAllChats(self):
 
         import MQTTbot
         MQTTbot.enter_allchats()
@@ -120,9 +120,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
         print("refresh chats: " + str(chats))
         for c in chats:
             self.plugin['xep_0045'].joinMUC(c + '@conference.ubuntu', 'bot')
+	Timer(30,lambda: self.joinAllChats(),()).start()
 
     def muc_message(self,msg):
-        
+        import json  
         if msg['mucnick'] != 'bot':
            print('receiving MUC msg'+str(msg['body']))
 
@@ -133,8 +134,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
                 msg.reply("Thanks for sending\n%(body)s" % msg).send()
             #msg.reply("bot_reply: %(body)s" % msg).send()
             #if msg['mucnick'] != self.nick and self.nick in msg['body']:
-                self.send_message(mto=msg['from'].bare,
-                                 mbody="reply, %s." % str(result),
+           self.send_message(mto=msg['from'].bare,
+                                 mbody="reply, %s." % str(json.dumps(result)),
                                   mtype='groupchat')
 
     def message(self, msg):
