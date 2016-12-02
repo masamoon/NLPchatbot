@@ -109,15 +109,15 @@ class EchoBot(sleekxmpp.ClientXMPP):
         for c in chats:
             self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
-        Timer(30,lambda: self.joinAllChats(),()).start()
+        Timer(5,lambda: self.joinAllChats(),()).start()
 
-    def joinAllChats(self):
+    def joinAllChats(self,s):
 
         import MQTTbot
         MQTTbot.enter_allchats()
         MQTTbot.get_chats()
         chats = MQTTbot.get_chats()
-        print("chats: " + str(chats))
+        print("refresh chats: " + str(chats))
         for c in chats:
             self.plugin['xep_0045'].joinMUC(c + '@conference.ubuntu', 'bot')
 
