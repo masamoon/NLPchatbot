@@ -119,8 +119,8 @@
       <file leaf-file-name="xmppBot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/xmppBot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="113" column="8" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
+            <state relative-caret-position="-300">
+              <caret line="133" column="58" selection-start-line="133" selection-start-column="58" selection-end-line="133" selection-end-column="58" />
               <folding>
                 <element signature="e#223#233#0" expanded="true" />
               </folding>
@@ -131,7 +131,7 @@
       <file leaf-file-name="MQTTbot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MQTTbot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
+            <state relative-caret-position="-414">
               <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -786,7 +786,14 @@
       <option name="project" value="LOCAL" />
       <updated>1480689189605</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="small fix on muc_message&#10;">
+      <created>1480689594848</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1480689594848</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1293,7 +1300,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MQTTbot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
+        <state relative-caret-position="-414">
           <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
@@ -1303,8 +1310,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/xmppBot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="113" column="8" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="8" />
+        <state relative-caret-position="-300">
+          <caret line="133" column="58" selection-start-line="133" selection-start-column="58" selection-end-line="133" selection-end-column="58" />
           <folding>
             <element signature="e#223#233#0" expanded="true" />
           </folding>
