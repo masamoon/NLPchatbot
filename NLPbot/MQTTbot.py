@@ -8,6 +8,7 @@ credentials = ""
 parameters = ""
 connection = ""
 channel = ""
+chats = ""
 
 def init_mqtt():
 
@@ -58,6 +59,19 @@ def callback(ch, method, properties, body):
 
 
 
+def callback_enterchats(ch,method,properties,body):
+    import json
+    print(" [x] Received %r" % body)
+    time.sleep(body.count(b'.'))
+    print(" [x] Done")
+    ch.basic_ack(delivery_tag = method.delivery_tag)
+    tmp_chats = json.loads(body)
+
+    print('chats data'+str(tmp_chats['data']))
+    if(tmp_chats['data']):
+    	global chats
+        chats = tmp_chats['data']
+    	ch.basic_cancel('ct')
 
 
 def enter_allchats():
@@ -89,11 +103,13 @@ def enter_allchats():
     channel.queue_declare(queue='bot19', durable=False)
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.basic_qos(prefetch_count=1)
-    channel.basic_consume(callback,
-                          queue='bot19')
+    channel.basic_consume(callback_enterchats,
+                          queue='bot19',consumer_tag='ct')
 
     channel.start_consuming()
 
+def get_chats():
+    return chats
 
 
 

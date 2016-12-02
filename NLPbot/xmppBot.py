@@ -92,8 +92,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         import MQTTbot
 
         MQTTbot.init_mqtt()
-
-
+	chats = MQTTbot.get_chats()
+	print("chats: "+str(chats))
         self.send_presence()
         self.get_roster()
         self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
@@ -106,6 +106,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
                                         # If a room password is needed, use:
                                         # password=the_room_password,
           #                              )
+	for c in chats:
+		self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
     def message(self, msg):
         """
