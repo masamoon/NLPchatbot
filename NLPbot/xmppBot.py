@@ -66,7 +66,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         # stanza is received from any chat room. If you also also
         # register a handler for the 'message' event, MUC messages
         # will be processed by both handlers.
-#        self.add_event_handler("groupchat_message", self.muc_message)
+        self.add_event_handler("groupchat_message", self.muc_message)
 
         # The groupchat_presence event is triggered whenever a
         # presence stanza is received from any chat room, including
@@ -109,7 +109,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
 	for c in chats:
 		self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
-    def message(self, msg):
+   def muc__message(self,msg):
+	print('receiving MUC msg'+str(msg['body']))
+ 
+   def message(self, msg):
         """
         Process incoming message stanzas. Be aware that this also
         includes MUC messages and error messages. It is usually
