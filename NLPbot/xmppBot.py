@@ -110,17 +110,19 @@ class EchoBot(sleekxmpp.ClientXMPP):
             self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
     def muc_message(self,msg):
-        print('receiving MUC msg'+str(msg['body']))
+        
+	if msg['mucnick'] != 'bot':
+	   print('receiving MUC msg'+str(msg['body']))
 
-        result = chatbot.run_bot(msg['body'])
-        if "remindme" in result:
+           result = chatbot.run_bot(msg['body'])
+           if "remindme" in result:
             # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
-            Timer(10, lambda: self.remindMe("quim", "dar banho ao cao"), ()).start()
-            msg.reply("Thanks for sending\n%(body)s" % msg).send()
+           	Timer(10, lambda: self.remindMe("quim", "dar banho ao cao"), ()).start()
+           	msg.reply("Thanks for sending\n%(body)s" % msg).send()
         #msg.reply("bot_reply: %(body)s" % msg).send()
         #if msg['mucnick'] != self.nick and self.nick in msg['body']:
-        self.send_message(mto=msg['from'].bare,
-                         mbody="reply, %s." % str(result),
+           self.send_message(mto=msg['from'].bare,
+                             mbody="reply, %s." % str(result),
                               mtype='groupchat')
 
     def message(self, msg):
@@ -135,14 +137,15 @@ class EchoBot(sleekxmpp.ClientXMPP):
                    for stanza objects and the Message stanza to see
                    how it may be used.
         """
-        if msg['type'] in ('chat', 'normal'):
-            print(msg['body'])
-            result = chatbot.run_bot(msg['body'])
-            if "remindme" in result:
+        print('msg')
+	#if msg['type'] in ('chat', 'normal'):
+         #   print(msg['body'])
+          #  result = chatbot.run_bot(msg['body'])
+           # if "remindme" in result:
                 #schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
-                Timer(10, lambda:self.remindMe("quim","dar banho ao cao"), ()).start()
-                msg.reply("Thanks for sending\n%(body)s" % msg).send()
-            msg.reply("bot_reply: %(body)s" % msg).send()
+            #    Timer(10, lambda:self.remindMe("quim","dar banho ao cao"), ()).start()
+             #   msg.reply("Thanks for sending\n%(body)s" % msg).send()
+            #msg.reply("bot_reply: %(body)s" % msg).send()
 
 
 
