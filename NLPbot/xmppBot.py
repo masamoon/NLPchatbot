@@ -92,8 +92,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         import MQTTbot
 
         MQTTbot.init_mqtt()
-	chats = MQTTbot.get_chats()
-	print("chats: "+str(chats))
+        chats = MQTTbot.get_chats()
+        print("chats: "+str(chats))
         self.send_presence()
         self.get_roster()
         self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
@@ -106,13 +106,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
                                         # If a room password is needed, use:
                                         # password=the_room_password,
           #                              )
-	for c in chats:
-		self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
+        for c in chats:
+            self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
-   def muc__message(self,msg):
-	print('receiving MUC msg'+str(msg['body']))
- 
-   def message(self, msg):
+    def muc__message(self,msg):
+        print('receiving MUC msg'+str(msg['body']))
+
+    def message(self, msg):
         """
         Process incoming message stanzas. Be aware that this also
         includes MUC messages and error messages. It is usually
@@ -137,10 +137,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
     def remindMe(s,who,what):
-        print ("Hey %s, just to remind you: %s" % (who,what))
+            print ("Hey %s, just to remind you: %s" % (who,what))
 
     def callback(ch, method, properties, body):
-        print(" [x] Received %r" % body)
+            print(" [x] Received %r" % body)
 
 
 
