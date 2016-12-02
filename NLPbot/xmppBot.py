@@ -109,7 +109,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         for c in chats:
             self.plugin['xep_0045'].joinMUC(c+'@conference.ubuntu','bot')
 
-    def muc__message(self,msg):
+    def muc_message(self,msg):
         print('receiving MUC msg'+str(msg['body']))
 
     def message(self, msg):
