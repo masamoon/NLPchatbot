@@ -122,6 +122,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
             self.plugin['xep_0045'].joinMUC(c + '@conference.ubuntu', 'bot')
 	Timer(30,lambda: self.joinAllChats(),()).start()
 
+
     def muc_message(self,msg):
         import json  
         if msg['mucnick'] != 'bot':
@@ -135,9 +136,10 @@ class EchoBot(sleekxmpp.ClientXMPP):
             #msg.reply("bot_reply: %(body)s" % msg).send()
             #if msg['mucnick'] != self.nick and self.nick in msg['body']:
            
-	   
+	   pretty_msg = json.dumps(result, sort_keys=True,
+               indent=4, separators=(',', ': '))
 	   self.send_message(mto=msg['from'].bare,
-                                 mbody="reply, %s." % str(json.dumps(result)),
+                                 mbody="reply, %s." % str(pretty_msg),
                                   mtype='groupchat')
 
     def message(self, msg):
