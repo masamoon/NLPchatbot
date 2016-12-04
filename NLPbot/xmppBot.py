@@ -126,6 +126,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
 	def muc_message(self,msg):
 		import json
 		import pprint
+		import numpy as np
+
 		if msg['mucnick'] != 'bot':
 		   print('receiving MUC msg'+str(msg['body']))
 
@@ -137,7 +139,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 			#msg.reply("bot_reply: %(body)s" % msg).send()
 			#if msg['mucnick'] != self.nick and self.nick in msg['body']:
 
-		   pretty_msg = pprint.pformat(result)
+		   pretty_msg = np.matrix(result)
 		   self.send_message(mto=msg['from'].bare,
 								 mbody="reply, %s." % str(pretty_msg),
 								  mtype='groupchat')
