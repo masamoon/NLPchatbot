@@ -130,11 +130,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
            result = chatbot.run_bot(msg['body'])
            if "remindme" in result:
                 # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
-                Timer(10, lambda: self.remindMe("quim", "dar banho ao cao"), ()).start()
+                Timer(10, lambda: self.remindMe("me", "go shopping"), ()).start()
                 msg.reply("Thanks for sending\n%(body)s" % msg).send()
             #msg.reply("bot_reply: %(body)s" % msg).send()
             #if msg['mucnick'] != self.nick and self.nick in msg['body']:
-           self.send_message(mto=msg['from'].bare,
+           
+	   
+	   self.send_message(mto=msg['from'].bare,
                                  mbody="reply, %s." % str(json.dumps(result)),
                                   mtype='groupchat')
 
