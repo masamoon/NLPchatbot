@@ -96,8 +96,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         print("chats: "+str(chats))
         self.send_presence()
         self.get_roster()
-        self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
-                                        "bot"
+#        self.plugin['xep_0045'].joinMUC("DETI@conference.ubuntu",
+ #                                       "bot"
                                         # If a room password is needed, use:
                                         # password=the_room_password,
                                         )
@@ -136,13 +136,13 @@ class EchoBot(sleekxmpp.ClientXMPP):
            if "remindme" in result:
                 # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
                 Timer(10, lambda: self.remindMe("me", "go shopping"), ()).start()
-                msg.reply("Thanks for sending\n%(body)s" % msg).send()
+  #              msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
            mat_msg = np.matrix(result)
            pretty_msg = np.matrix([[str(ele) for ele in a] for a in np.array(mat_msg)])
            print(pretty_msg)
            self.send_message(mto=msg['from'].bare,
-                             mbody="reply, %s." % str(pretty_msg),
+                             mbody="reply, %s." % str(pretty_msg).strip(),
                              mtype='groupchat')
 
     def message(self, msg):
