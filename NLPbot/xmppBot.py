@@ -77,18 +77,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
   #                             self.muc_online)
 
     def start(self, event):
-        """
-        Process the session_start event.
-
-        Typical actions for the session_start event are
-        requesting the roster and broadcasting an initial
-        presence stanza.
-
-        Arguments:
-            event -- An empty dictionary. The session_start
-                     event does not provide any additional
-                     data.
-        """
+        
         import MQTTbot
 
         MQTTbot.init_mqtt()
@@ -100,7 +89,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
  #                                       "bot"
                                         # If a room password is needed, use:
                                         # password=the_room_password,
-                                        )
+  #                                      )
         #self.plugin['xep_0045'].joinMUC("test2@conference.andrelopes",
          #                               "bot"
                                         # If a room password is needed, use:
@@ -134,7 +123,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
            result = chatbot.run_bot(msg['body'])
            if "remindme" in result:
-                # schedule.every(10).seconds.do(self.remindMe("quim","dar banho ao cao"))
+               
                 Timer(10, lambda: self.remindMe("me", "go shopping"), ()).start()
   #              msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
@@ -146,17 +135,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
                              mtype='groupchat')
 
     def message(self, msg):
-        """
-        Process incoming message stanzas. Be aware that this also
-        includes MUC messages and error messages. It is usually
-        a good idea to check the messages's type before processing
-        or sending replies.
-
-        Arguments:
-            msg -- The received message stanza. See the documentation
-                   for stanza objects and the Message stanza to see
-                   how it may be used.
-        """
+        
         print('msg')
     #if msg['type'] in ('chat', 'normal'):
          #   print(msg['body'])
@@ -227,9 +206,7 @@ if __name__ == '__main__':
     if opts.nick is None:
         opts.nick = "chatbot"
 
-    # Setup the EchoBot and register plugins. Note that while plugins may
-    # have interdependencies, the order in which you register them does
-    # not matter.
+    
     xmpp = EchoBot(opts.jid, opts.password,opts.room, opts.nick)
     xmpp.register_plugin('xep_0030') # Service Discovery
     xmpp.register_plugin('xep_0004') # Data Forms
@@ -237,26 +214,12 @@ if __name__ == '__main__':
     xmpp.register_plugin('xep_0199') # XMPP Ping
     xmpp.register_plugin('xep_0045')  # Multi-User Chat
 
-    # If you are working with an OpenFire server, you may need
-    # to adjust the SSL version used:
+   
     import ssl
     xmpp.ssl_version = ssl.PROTOCOL_SSLv23
 
-    # If you want to verify the SSL certificates offered by a server:
-    # xmpp.ca_certs = "path/to/ca/cert"
-
-    # Connect to the XMPP server and start processing XMPP stanzas.
+   
     if xmpp.connect(('192.168.215.165', 5222)):
-        # If you do not have the dnspython library installed, you will need
-        # to manually specify the name of the server if it does not match
-        # the one in the JID. For example, to use Google Talk you would
-        # need to use:
-        #
-        # if xmpp.connect(('talk.google.com', 5222)):
-        #     ...
-
-
-
         xmpp.process(block=True)
         schedule.run_pending()
         print("Done")
